@@ -24,7 +24,7 @@ contract Emofty is
     constructor() ERC721("Emofty", "EMFT") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);
-        _grantRole(MINTER_ROLE, address(this));
+        _grantRole(MINTER_ROLE, msg.sender);
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {
