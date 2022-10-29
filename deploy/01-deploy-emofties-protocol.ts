@@ -4,7 +4,7 @@ import { network } from "hardhat"
 import { developmentChains } from "../helper-hardhat-config"
 import { verify } from "../utils/verify"
 
-const func: DeployFunction = async ({
+module.exports = async ({
   getNamedAccounts,
   deployments,
 }: HardhatRuntimeEnvironment) => {
@@ -27,5 +27,4 @@ const func: DeployFunction = async ({
   log("=============================================================")
 }
 
-export default func
 module.exports.tags = ["all", "emofties"]
