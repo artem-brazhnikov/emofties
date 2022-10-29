@@ -10,7 +10,7 @@ contract EmoftiesProtocol is Emofty {
 
     error SharingNotAllowed();
     error NoCoreEmotion();
-    error CantClaimEmoftyForThisEmotion();
+    error NonCoreEmotionsCantBeClaimed();
     error EmotionAlreadyRegistered();
 
     struct Emotion {
@@ -41,9 +41,10 @@ contract EmoftiesProtocol is Emofty {
     mapping(bytes32 => Emotion) emotions;
 
     // emofties: core emotion => (address => emoftyId)
-    mapping(bytes32 => mapping(address => uint256)) emofties;
+    // TODO: owner => Struct (emoftyId, core emotion)
+    mapping(bytes32 => mapping(address => uint256)) soulboundEmofties;
 
-    // shared Emotions: sender => (timestamp or nftId => SharedEmotion)
+    // shared Emotions: sender => (emoftyId => SharedEmotion)
     mapping(address => mapping(uint256 => SharedEmotion)) sharedEmotions;
 
     // sharing approvals: approver => (approved => true/false)
@@ -107,14 +108,14 @@ contract EmoftiesProtocol is Emofty {
         external
     {
         if (!emotions[_coreEmotion].core) {
-            revert CantClaimEmoftyForThisEmotion();
+            revert NonCoreEmotionsCantBeClaimed();
         }
 
         soulboundTokenIdCounter.increment();
         uint256 emoftyId = soulboundTokenIdCounter.current();
         mintEmofty(emoftyId, msg.sender, _uri);
 
-        emofties[_coreEmotion][msg.sender] = emoftyId;
+        soulboundEmofties[_coreEmotion][msg.sender] = emoftyId;
 
         emit EmoftyClaimed(msg.sender, _coreEmotion, emoftyId);
     }
@@ -134,6 +135,7 @@ contract EmoftiesProtocol is Emofty {
             revert SharingNotAllowed();
         }
 
+        _shared.timestamp = block.timestamp;
         shareTokenIdCounter.increment();
         // Use shift for 128 for shared emofties
         uint256 sharedEmoftyId = shareTokenIdCounter.current() << 128;
@@ -176,7 +178,7 @@ contract EmoftiesProtocol is Emofty {
         view
         returns (bool exists, uint256 emoftyId)
     {
-        emoftyId = emofties[_coreEmotion][_owner];
+        emoftyId = soulboundEmofties[_coreEmotion][_owner];
         exists = emoftyId != 0;
     }
 }
