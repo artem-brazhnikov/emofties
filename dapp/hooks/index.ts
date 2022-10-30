@@ -1,5 +1,5 @@
 import { useNetwork } from "@web3modal/react"
-import deployemntsJson from "../../deployments/deployments.json"
+// import deployemntsJson from "../../deployments/deployments.json"
 
 // export const emoftiesProtocolAddress =
 //   "0x5FbDB2315678afecb367f032d93F642f64180aa3"

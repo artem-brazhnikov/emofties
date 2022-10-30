@@ -6,7 +6,7 @@ import {
     Web3Button,
 } from "@web3modal/react"
 import { Box, Text, Button } from "@chakra-ui/react"
-import Identicon from "./Identicon"
+// import Identicon from "./Identicon"
 import { getDefaultProvider } from "ethers"
 
 type Props = {
@@ -59,9 +59,9 @@ export function Web3ModalProfile({ handleOpenModal }: Props) {
                         <Text color="white" fontSize="md">
                             {isLoading
                                 ? "Loading..."
-                                : `${parseFloat(data?.formatted).toFixed(3)} ${
-                                      data?.symbol
-                                  }`}
+                                : `${parseFloat(data?.formatted as any).toFixed(
+                                      3
+                                  )} ${data?.symbol}`}
                         </Text>
                     </Box>
 
@@ -95,7 +95,7 @@ export function Web3ModalProfile({ handleOpenModal }: Props) {
                                     account.address.length
                                 )}`}
                         </Text>
-                        <Identicon />
+                        {/* <Identicon /> */}
                     </Button>
                 </Box>
             )}
