@@ -14,7 +14,8 @@ type Props = {
 }
 
 export default function EmotionCardWagmi({ imageUrl, coreEmotionName }: Props) {
-    const { address, isConnecting, isDisconnected } = useAccount()
+    const { address, isConnecting, isConnected } = useAccount()
+    console.log(`is isConnected ${isConnected}`)
 
     const [emoftiesBalance, setSharedEmoftiesBalance] = React.useState(0)
     const [sbtEmoftiesBalance, setSBTEmoftiesBalance] = React.useState(0)
@@ -76,7 +77,7 @@ export default function EmotionCardWagmi({ imageUrl, coreEmotionName }: Props) {
             setSharedEmoftiesBalance(balance.toNumber())
         }
         getEmoftiesForCoreEmotion()
-    }, [address, lastTxReceipt])
+    }, [isConnected, lastTxReceipt])
 
     React.useEffect(() => {
         const getSoulboundEmofty = async () => {
@@ -85,7 +86,7 @@ export default function EmotionCardWagmi({ imageUrl, coreEmotionName }: Props) {
             setSBTEmoftiesBalance(balance.toNumber() != 0 ? 1 : 0)
         }
         getSoulboundEmofty()
-    }, [address, lastTxReceipt])
+    }, [isConnected, lastTxReceipt])
 
     if (isLoading || isConnecting) {
         return (
