@@ -33,9 +33,15 @@ export default function EmotionCardWagmi({ imageUrl, coreEmotionName }: Props) {
     const claimEmofty = async () => {
         setClaimLoading(true)
         const hashedEmmotion = keccak256(toUtf8Bytes(coreEmotionName))
-        const tx = await emofties.claimSoulboundEmofty(hashedEmmotion, "")
-        const txReceipt = await tx.wait()
-        setLastTxReceipt(txReceipt)
+
+        try {
+            const tx = await emofties.claimSoulboundEmofty(hashedEmmotion, "")
+            const txReceipt = await tx.wait()
+            setLastTxReceipt(txReceipt)
+        } catch (err) {
+            console.error(err)
+        }
+
         setClaimLoading(false)
     }
 
@@ -51,9 +57,13 @@ export default function EmotionCardWagmi({ imageUrl, coreEmotionName }: Props) {
             memo: "Hello World",
         }
 
-        const tx = await emofties.shareEmofty(sharedEmotion, "uri")
-        const txReceipt = await tx.wait()
-        setLastTxReceipt(txReceipt)
+        try {
+            const tx = await emofties.shareEmofty(sharedEmotion, "uri")
+            const txReceipt = await tx.wait()
+            setLastTxReceipt(txReceipt)
+        } catch (err) {
+            console.error(err)
+        }
         setShareLoading(false)
     }
 
