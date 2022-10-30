@@ -102,7 +102,10 @@ contract EmoftiesProtocol is Emofty {
     }
 
     // todo: limit name to bytes32
-    function registerEmotion(string memory _name) external {
+    function registerEmotion(string memory _name)
+        external
+        onlyRole(DEFAULT_ADMIN_ROLE)
+    {
         bytes32 hashedName = keccak256(abi.encodePacked(_name));
         if (bytes(emotions[hashedName].name).length > 0) {
             revert EmotionAlreadyRegistered();
