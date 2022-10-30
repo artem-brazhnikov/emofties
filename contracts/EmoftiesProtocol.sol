@@ -12,6 +12,8 @@ contract EmoftiesProtocol is Emofty {
     error NoCoreEmotion();
     error NonCoreEmotionsCantBeClaimed();
     error EmotionAlreadyRegistered();
+    error NoCoreEmotionProvided();
+    error SoulboundEmoftyForThisEmotionIsClaimed();
 
     struct Emotion {
         string name;
@@ -37,16 +39,22 @@ contract EmoftiesProtocol is Emofty {
     Counters.Counter private soulboundTokenIdCounter;
     Counters.Counter private shareTokenIdCounter;
 
+    // Emotions
     // emotions registry: emotion Hash => emotionName
     mapping(bytes32 => Emotion) emotions;
 
-    // emofties: core emotion => (address => emoftyId)
-    // TODO: owner => Struct (emoftyId, core emotion)
+    // Souldbound Emofties
+    // emofties: core emotion => (owner => emoftyId)
+    // TODO maybe: owner => Struct (emoftyId, core emotion)
     mapping(bytes32 => mapping(address => uint256)) soulboundEmofties;
 
+    // Shared Emofteies
     // shared Emotions: sender => (emoftyId => SharedEmotion)
     mapping(address => mapping(uint256 => SharedEmotion)) sharedEmotions;
+    // Balance of emofties per core emotion: core emotion => (owner => balance)
+    mapping(bytes32 => mapping(address => uint256)) sharedEmotionsBalance;
 
+    // Approvals
     // sharing approvals: approver => (approved => true/false)
     mapping(address => mapping(address => bool)) allowances;
 
@@ -110,6 +118,9 @@ contract EmoftiesProtocol is Emofty {
         if (!emotions[_coreEmotion].core) {
             revert NonCoreEmotionsCantBeClaimed();
         }
+        if (soulboundEmofties[_coreEmotion][msg.sender] != 0) {
+            revert SoulboundEmoftyForThisEmotionIsClaimed();
+        }
 
         soulboundTokenIdCounter.increment();
         uint256 emoftyId = soulboundTokenIdCounter.current();
@@ -141,6 +152,7 @@ contract EmoftiesProtocol is Emofty {
         uint256 sharedEmoftyId = shareTokenIdCounter.current() << 128;
 
         sharedEmotions[msg.sender][sharedEmoftyId] = _shared;
+        sharedEmotionsBalance[_shared.coreEmotion][msg.sender] += 1;
 
         // TODO: batch mint to x addresses - ERC1155 ?
         if (bytes(_uri).length > 0) {
@@ -173,12 +185,25 @@ contract EmoftiesProtocol is Emofty {
         mintEmofty(newSharedTokenId, msg.sender, sharedTokenUri);
     }
 
-    function getEmofty(address _owner, bytes32 _coreEmotion)
+    function balanceOfSharedEmofties(bytes32 _coreEmotion)
         public
         view
-        returns (bool exists, uint256 emoftyId)
+        returns (uint256)
     {
-        emoftyId = soulboundEmofties[_coreEmotion][_owner];
-        exists = emoftyId != 0;
+        if (!emotions[_coreEmotion].core) {
+            revert NoCoreEmotionProvided();
+        }
+        return sharedEmotionsBalance[_coreEmotion][msg.sender];
+    }
+
+    function getSoulboundEmofty(bytes32 _coreEmotion)
+        public
+        view
+        returns (uint256)
+    {
+        if (!emotions[_coreEmotion].core) {
+            revert NoCoreEmotionProvided();
+        }
+        return soulboundEmofties[_coreEmotion][msg.sender];
     }
 }

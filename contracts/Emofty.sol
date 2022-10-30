@@ -24,7 +24,7 @@ contract Emofty is
     constructor() ERC721("Emofty", "EMFT") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);
-        _grantRole(MINTER_ROLE, msg.sender);
+        // _grantRole(MINTER_ROLE, msg.sender);
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {
@@ -39,12 +39,7 @@ contract Emofty is
         uint256 tokenId,
         address to,
         string memory uri
-    ) public onlyRole(MINTER_ROLE) {
-        require(
-            balanceOf(to) == 0,
-            "EmoftiesNFT: The address already has an emofty for this core emotion"
-        );
-
+    ) internal {
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
     }
