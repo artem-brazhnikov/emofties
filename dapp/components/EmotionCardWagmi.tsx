@@ -117,7 +117,7 @@ export default function EmotionCardWagmi({ imageUrl, coreEmotionName }: Props) {
                         variant="solid"
                         onClick={() => claimEmofty()}
                     >
-                        Claim SBT Emofty
+                        Claim Core Emofty
                     </Button>
                     <Button
                         isLoading={shareLoading}
