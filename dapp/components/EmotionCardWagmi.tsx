@@ -102,13 +102,13 @@ export default function EmotionCardWagmi({ imageUrl, coreEmotionName }: Props) {
                 borderRadius="lg"
                 overflow="hidden"
             >
-                <Image
+                {/* <Image
                     src={imageUrl}
                     alt={coreEmotionName}
                     objectFit="fill"
                     boxSize="300px"
                     width="380px"
-                />
+                /> */}
                 <Stack marginLeft={6} marginTop={5} direction="row" spacing={4}>
                     <Button
                         isLoading={claimLoading}
