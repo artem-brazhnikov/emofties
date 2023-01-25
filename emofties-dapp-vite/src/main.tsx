@@ -14,12 +14,16 @@ const router = createBrowserRouter([
         path: "/",
         element: <App />,
         errorElement: <ErrorPage />,
-        //TODO: add children error page to be rendered in Outlet
         children: [
-            { index: true, element: <Index /> },
-            { path: "explore", element: <ExplorePage /> },
-            { path: "share", element: <SharePage /> },
-            { path: "profile", element: <ProfilePage /> },
+            {
+                errorElement: <ErrorPage />,
+                children: [
+                    { index: true, element: <Index /> },
+                    { path: "explore", element: <ExplorePage /> },
+                    { path: "share", element: <SharePage /> },
+                    { path: "profile", element: <ProfilePage /> },
+                ],
+            },
         ],
     },
 ])
