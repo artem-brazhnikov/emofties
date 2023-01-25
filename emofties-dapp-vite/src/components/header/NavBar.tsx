@@ -1,12 +1,26 @@
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 const NavBar = () => {
+    const evaluateNavLinkClass = ({ isActive, isPending }: any) =>
+        isActive
+            ? "text-blue-900 bg-teal-100 rounded-md p-1"
+            : isPending
+            ? "text-blue-900 p-1"
+            : "hover:text-blue-900 p-1"
     return (
         <nav className="flex gap-6">
-            <Link to={"/"}>Logo{/* image */}</Link>
-            <Link to={"/"}>Home</Link>
-            <Link to={"/explore"}>Explore</Link>
-            <Link to={"/share"}>Share</Link>
+            <NavLink className="p-1" to={"/"}>
+                Logo{/* image */}
+            </NavLink>
+            <NavLink className={evaluateNavLinkClass} to={"/"}>
+                Home
+            </NavLink>
+            <NavLink className={evaluateNavLinkClass} to={"/explore"}>
+                Explore
+            </NavLink>
+            <NavLink className={evaluateNavLinkClass} to={"/share"}>
+                Share
+            </NavLink>
         </nav>
     )
 }

@@ -1,6 +1,6 @@
 // Home
 const Index = () => {
-    return <>Home</>
+    return <>Index</>
 }
 
 export default Index
