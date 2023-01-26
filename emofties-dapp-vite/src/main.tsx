@@ -9,6 +9,36 @@ import ExplorePage from "./pages/ExplorePage"
 import ProfilePage from "./pages/ProfilePage"
 import SharePage from "./pages/SharePage"
 
+import {
+    hardhat,
+    localhost,
+    polygon,
+    avalanche,
+    arbitrum,
+    arbitrumGoerli,
+} from "@wagmi/chains"
+import {
+    configureChains,
+    mainnet,
+    goerli,
+    createClient,
+    WagmiConfig,
+} from "wagmi"
+import { publicProvider } from "wagmi/providers/public"
+
+const { chains, provider, webSocketProvider } = configureChains(
+    [mainnet, goerli, polygon, avalanche, arbitrum, arbitrumGoerli],
+    [publicProvider()]
+    //todo: add alchemy and infura providers
+)
+console.log("Main chains", chains)
+
+const client = createClient({
+    autoConnect: true,
+    provider,
+    webSocketProvider,
+})
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -30,6 +60,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <WagmiConfig client={client}>
+            <RouterProvider router={router} />
+        </WagmiConfig>
     </React.StrictMode>
 )
