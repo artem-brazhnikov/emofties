@@ -1,5 +1,11 @@
+import { SendTransaction } from "../components/share/Share"
+
 const SharePage = () => {
-    return <>Share Page</>
+    return (
+        <>
+            <SendTransaction />
+        </>
+    )
 }
 
 export default SharePage
