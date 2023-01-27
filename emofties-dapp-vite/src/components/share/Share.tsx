@@ -1,4 +1,4 @@
-import { utils } from "ethers"
+import { BigNumber, utils } from "ethers"
 import {
     keccak256,
     toUtf8Bytes,
@@ -10,8 +10,6 @@ import { useDebounce } from "use-debounce"
 import {
     useContractWrite,
     usePrepareContractWrite,
-    usePrepareSendTransaction,
-    useSendTransaction,
     useWaitForTransaction,
 } from "wagmi"
 
@@ -26,7 +24,7 @@ export type CoreEmotion =
     | "DISGUST"
     | "LOVE"
 
-export function SendTransaction() {
+export function Share() {
     const [memo, setMemo] = useState<string>("")
     const [debouncedMemo] = useDebounce(memo, 500)
 
@@ -35,20 +33,10 @@ export function SendTransaction() {
 
     const [receiver, setReceiver] = useState<string>(
         "0x0000000000000000000000000000000000000000"
-    )
+    ) // fails when the address is non-zero???
     const [debouncedReceiver] = useDebounce(receiver, 500)
-
-    const { config } = usePrepareSendTransaction({
-        request: {
-            to: debouncedReceiver,
-            value: utils.parseEther("1"),
-        },
-    })
-
-    // const { data, sendTransaction } = useSendTransaction(config)
-    // const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash })
-
-    const sharedEmotion: EmoftiesProtocol.SharedEmotionStruct = {
+    console.log("Recevier", debouncedReceiver)
+    const sharedEmotion: any = {
         coreEmotion: keccak256(toUtf8Bytes("JOY")),
         emotionShade: keccak256(toUtf8Bytes("Excitement")),
         associatedTx: formatBytes32String(debouncedAssociatedTx),
@@ -66,11 +54,13 @@ export function SendTransaction() {
         abi: EmoftiesAbi.abi,
         functionName: "shareEmofty",
         args: [sharedEmotion, "uri"],
+        overrides: { gasLimit: BigNumber.from(500000) },
     })
     console.log("Contract Write Config", contractWriteConfig)
 
     const { data, write, isError, error } =
         useContractWrite(contractWriteConfig)
+    console.log("write", write)
     const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash })
 
     return (

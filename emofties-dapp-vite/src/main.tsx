@@ -13,7 +13,6 @@ import {
     hardhat,
     localhost,
     polygon,
-    avalanche,
     arbitrum,
     arbitrumGoerli,
 } from "@wagmi/chains"
@@ -25,13 +24,19 @@ import {
     WagmiConfig,
 } from "wagmi"
 import { publicProvider } from "wagmi/providers/public"
+import { alchemyProvider } from "wagmi/providers/alchemy"
 
 const { chains, provider, webSocketProvider } = configureChains(
-    [mainnet, goerli, polygon, avalanche, arbitrum, arbitrumGoerli],
-    [publicProvider()]
+    [mainnet, goerli, polygon, arbitrum, arbitrumGoerli],
+    [
+        alchemyProvider({
+            apiKey: "R-eWeP3NgwNItKOpwnL972eb6A7aGWyA",
+            priority: 0,
+        }),
+        // publicProvider({ priority: 1 }),
+    ]
     //todo: add alchemy and infura providers
 )
-console.log("Main chains", chains)
 
 const client = createClient({
     autoConnect: true,
