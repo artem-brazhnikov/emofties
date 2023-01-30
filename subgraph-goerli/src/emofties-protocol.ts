@@ -9,7 +9,7 @@ import {
   RoleGranted as RoleGrantedEvent,
   RoleRevoked as RoleRevokedEvent,
   Transfer as TransferEvent,
-  Unpaused as UnpausedEvent
+  Unpaused as UnpausedEvent,
 } from "../generated/EmoftiesProtocol/EmoftiesProtocol"
 import {
   Approval,
@@ -22,7 +22,7 @@ import {
   RoleGranted,
   RoleRevoked,
   Transfer,
-  Unpaused
+  Unpaused,
 } from "../generated/schema"
 
 export function handleApproval(event: ApprovalEvent): void {
@@ -95,7 +95,7 @@ export function handleEmotionRegistered(event: EmotionRegisteredEvent): void {
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
   entity.emotionHash = event.params.emotionHash
-  entity.emotionName = event.params.emotionName
+  entity.emotionName = event.params.emotionName.toString()
   entity.registrar = event.params.registrar
 
   entity.blockNumber = event.block.number

@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: EmoftiesProtocol
@@ -26,7 +26,7 @@ dataSources:
         - Unpaused
       abis:
         - name: EmoftiesProtocol
-          file: ./abis/EmoftiesProtocol.json
+          file: EmoftiesProtocol/abis/EmoftiesProtocol.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval
@@ -34,7 +34,8 @@ dataSources:
           handler: handleApprovalForAll
         - event: EmoftyClaimed(indexed address,indexed bytes32,indexed uint256)
           handler: handleEmoftyClaimed
-        - event: EmoftyShared(indexed address,indexed uint256,indexed bytes32,address,bytes32,bytes32,uint256,string)
+        - event: EmoftyShared(indexed address,indexed uint256,indexed
+            bytes32,address,bytes32,bytes32,uint256,string)
           handler: handleEmoftyShared
         - event: EmotionRegistered(indexed bytes32,indexed string,indexed address)
           handler: handleEmotionRegistered
@@ -50,4 +51,4 @@ dataSources:
           handler: handleTransfer
         - event: Unpaused(address)
           handler: handleUnpaused
-      file: ./src/emofties-protocol.ts
+      file: EmoftiesProtocol/EmoftiesProtocol.wasm

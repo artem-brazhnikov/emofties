@@ -185,7 +185,7 @@ export class ApprovalForAll extends Entity {
   }
 }
 
-export class EmoftyClaimed extends Entity {
+export class Emofty extends Entity {
   constructor(id: Bytes) {
     super();
     this.set("id", Value.fromBytes(id));
@@ -193,108 +193,18 @@ export class EmoftyClaimed extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save EmoftyClaimed entity without an ID");
+    assert(id != null, "Cannot save Emofty entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.BYTES,
-        `Entities of type EmoftyClaimed must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Emofty must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("EmoftyClaimed", id.toBytes().toHexString(), this);
+      store.set("Emofty", id.toBytes().toHexString(), this);
     }
   }
 
-  static load(id: Bytes): EmoftyClaimed | null {
-    return changetype<EmoftyClaimed | null>(
-      store.get("EmoftyClaimed", id.toHexString())
-    );
-  }
-
-  get id(): Bytes {
-    let value = this.get("id");
-    return value!.toBytes();
-  }
-
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
-  }
-
-  get owner(): Bytes {
-    let value = this.get("owner");
-    return value!.toBytes();
-  }
-
-  set owner(value: Bytes) {
-    this.set("owner", Value.fromBytes(value));
-  }
-
-  get coreEmotion(): Bytes {
-    let value = this.get("coreEmotion");
-    return value!.toBytes();
-  }
-
-  set coreEmotion(value: Bytes) {
-    this.set("coreEmotion", Value.fromBytes(value));
-  }
-
-  get emoftyId(): BigInt {
-    let value = this.get("emoftyId");
-    return value!.toBigInt();
-  }
-
-  set emoftyId(value: BigInt) {
-    this.set("emoftyId", Value.fromBigInt(value));
-  }
-
-  get blockNumber(): BigInt {
-    let value = this.get("blockNumber");
-    return value!.toBigInt();
-  }
-
-  set blockNumber(value: BigInt) {
-    this.set("blockNumber", Value.fromBigInt(value));
-  }
-
-  get blockTimestamp(): BigInt {
-    let value = this.get("blockTimestamp");
-    return value!.toBigInt();
-  }
-
-  set blockTimestamp(value: BigInt) {
-    this.set("blockTimestamp", Value.fromBigInt(value));
-  }
-
-  get transactionHash(): Bytes {
-    let value = this.get("transactionHash");
-    return value!.toBytes();
-  }
-
-  set transactionHash(value: Bytes) {
-    this.set("transactionHash", Value.fromBytes(value));
-  }
-}
-
-export class EmoftyShared extends Entity {
-  constructor(id: Bytes) {
-    super();
-    this.set("id", Value.fromBytes(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save EmoftyShared entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type EmoftyShared must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("EmoftyShared", id.toBytes().toHexString(), this);
-    }
-  }
-
-  static load(id: Bytes): EmoftyShared | null {
-    return changetype<EmoftyShared | null>(
-      store.get("EmoftyShared", id.toHexString())
-    );
+  static load(id: Bytes): Emofty | null {
+    return changetype<Emofty | null>(store.get("Emofty", id.toHexString()));
   }
 
   get id(): Bytes {
@@ -315,13 +225,13 @@ export class EmoftyShared extends Entity {
     this.set("sender", Value.fromBytes(value));
   }
 
-  get sharedEmoftyId(): BigInt {
-    let value = this.get("sharedEmoftyId");
+  get emoftyId(): BigInt {
+    let value = this.get("emoftyId");
     return value!.toBigInt();
   }
 
-  set sharedEmoftyId(value: BigInt) {
-    this.set("sharedEmoftyId", Value.fromBigInt(value));
+  set emoftyId(value: BigInt) {
+    this.set("emoftyId", Value.fromBigInt(value));
   }
 
   get coreEmotion(): Bytes {
@@ -406,7 +316,7 @@ export class EmoftyShared extends Entity {
   }
 }
 
-export class EmotionRegistered extends Entity {
+export class Emotion extends Entity {
   constructor(id: Bytes) {
     super();
     this.set("id", Value.fromBytes(id));
@@ -414,20 +324,18 @@ export class EmotionRegistered extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save EmotionRegistered entity without an ID");
+    assert(id != null, "Cannot save Emotion entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.BYTES,
-        `Entities of type EmotionRegistered must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Emotion must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("EmotionRegistered", id.toBytes().toHexString(), this);
+      store.set("Emotion", id.toBytes().toHexString(), this);
     }
   }
 
-  static load(id: Bytes): EmotionRegistered | null {
-    return changetype<EmotionRegistered | null>(
-      store.get("EmotionRegistered", id.toHexString())
-    );
+  static load(id: Bytes): Emotion | null {
+    return changetype<Emotion | null>(store.get("Emotion", id.toHexString()));
   }
 
   get id(): Bytes {
