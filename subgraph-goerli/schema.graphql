@@ -23,11 +23,11 @@ type Emofty @entity(immutable: true) {
     sender: Bytes! # address
     emoftyId: BigInt! # uint256
     coreEmotion: Bytes! # bytes32
-    receiver: Bytes! # address
-    emotionShade: Bytes! # bytes32
-    associatedTx: Bytes! # bytes32
+    receiver: Bytes # address
+    emotionShade: Bytes # bytes32
+    associatedTx: Bytes # bytes32
     timestamp: BigInt! # uint256
-    memo: String! # string
+    memo: String # string
     blockNumber: BigInt!
     blockTimestamp: BigInt!
     transactionHash: Bytes!

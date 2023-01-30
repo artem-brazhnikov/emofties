@@ -14,9 +14,8 @@ import {
 import {
   Approval,
   ApprovalForAll,
-  EmoftyClaimed,
-  EmoftyShared,
-  EmotionRegistered,
+  Emofty,
+  Emotion,
   Paused,
   RoleAdminChanged,
   RoleGranted,
@@ -56,14 +55,15 @@ export function handleApprovalForAll(event: ApprovalForAllEvent): void {
 }
 
 export function handleEmoftyClaimed(event: EmoftyClaimedEvent): void {
-  let entity = new EmoftyClaimed(
+  let entity = new Emofty(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
-  entity.owner = event.params.owner
+  entity.sender = event.params.owner
   entity.coreEmotion = event.params.coreEmotion
   entity.emoftyId = event.params.emoftyId
 
   entity.blockNumber = event.block.number
+  entity.timestamp = event.block.timestamp
   entity.blockTimestamp = event.block.timestamp
   entity.transactionHash = event.transaction.hash
 
@@ -71,11 +71,11 @@ export function handleEmoftyClaimed(event: EmoftyClaimedEvent): void {
 }
 
 export function handleEmoftyShared(event: EmoftySharedEvent): void {
-  let entity = new EmoftyShared(
+  let entity = new Emofty(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
   entity.sender = event.params.sender
-  entity.sharedEmoftyId = event.params.sharedEmoftyId
+  entity.emoftyId = event.params.sharedEmoftyId
   entity.coreEmotion = event.params.coreEmotion
   entity.receiver = event.params.receiver
   entity.emotionShade = event.params.emotionShade
@@ -91,7 +91,7 @@ export function handleEmoftyShared(event: EmoftySharedEvent): void {
 }
 
 export function handleEmotionRegistered(event: EmotionRegisteredEvent): void {
-  let entity = new EmotionRegistered(
+  let entity = new Emotion(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
   entity.emotionHash = event.params.emotionHash
