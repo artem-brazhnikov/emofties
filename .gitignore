@@ -10,3 +10,7 @@ cache
 artifacts
 gas-report.txt
 deployments
+
+#Graph
+**/build/
+**/generated/
