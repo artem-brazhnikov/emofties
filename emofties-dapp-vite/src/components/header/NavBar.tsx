@@ -10,7 +10,11 @@ const NavBar = () => {
     return (
         <nav className="flex gap-6">
             <NavLink className="p-2" to={"/"}>
-                Logo{/* image */}
+                <img
+                    className=" w-8 h-8"
+                    src="/assets/emotions-social-graph.jpg"
+                    alt=""
+                />
             </NavLink>
             <NavLink className={evaluateNavLinkClass} to={"/"}>
                 Home
