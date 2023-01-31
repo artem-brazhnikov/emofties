@@ -1,5 +1,7 @@
+import Feed from "../components/explore/Feed"
+
 const ExplorePage = () => {
-    return <>Explore Page</>
+    return <Feed />
 }
 
 export default ExplorePage

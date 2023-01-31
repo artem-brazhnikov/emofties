@@ -26,6 +26,13 @@ import {
 import { publicProvider } from "wagmi/providers/public"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
+
+const apolloClient = new ApolloClient({
+    uri: "https://api.studio.thegraph.com/query/41415/emofties-goerli/v0.0.1",
+    cache: new InMemoryCache(),
+})
+
 const { chains, provider, webSocketProvider } = configureChains(
     [mainnet, goerli, polygon, arbitrum, arbitrumGoerli],
     [
@@ -38,7 +45,7 @@ const { chains, provider, webSocketProvider } = configureChains(
     //todo: add alchemy and infura providers
 )
 
-const client = createClient({
+const wagmiClient = createClient({
     autoConnect: true,
     provider,
     webSocketProvider,
@@ -65,8 +72,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
-        <WagmiConfig client={client}>
-            <RouterProvider router={router} />
-        </WagmiConfig>
+        <ApolloProvider client={apolloClient}>
+            <WagmiConfig client={wagmiClient}>
+                <RouterProvider router={router} />
+            </WagmiConfig>
+        </ApolloProvider>
     </React.StrictMode>
 )
