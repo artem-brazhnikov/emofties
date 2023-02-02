@@ -1,0 +1,45 @@
+{
+    "data": "./image1.png",
+    "tags": [
+        {
+            "name": "App-Name",
+            "value": "Emofties-Dapp"
+        },
+        {
+            "name": "Protocol",
+            "value": "Emofties"
+        },
+        {
+            "name": "Content-Type",
+            "value": "text/plain"
+        },
+        {
+            "name": "App-Version",
+            "value": "0.1"
+        },
+        {
+            "name": "Unix-Time",
+            "value": "1675333392"
+        },
+        {
+            "name": "Core-Emotion",
+            "value": "JOY"
+        },
+        {
+            "name": "Emotion-Shade",
+            "value": "SATISFACTION"
+        },
+        {
+            "name": "Emoji",
+            "value": "x"
+        },
+        {
+            "name": "Chain-Id",
+            "value": "1"
+        },
+        {
+            "name": "Chain-Tx",
+            "value": "0x"
+        }
+    ]
+}
