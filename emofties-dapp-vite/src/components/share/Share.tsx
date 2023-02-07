@@ -24,7 +24,9 @@ export type CoreEmotion =
     | "DISGUST"
     | "LOVE"
 
-export function Share() {
+const EvmShare = () => {
+    const [coreEmotion, setCoreEmotion] = useState<string>("")
+    const [emotionShade, setEmotionsShade] = useState<string>("")
     const [memo, setMemo] = useState<string>("")
     const [debouncedMemo] = useDebounce(memo, 500)
 
@@ -36,9 +38,12 @@ export function Share() {
     ) // fails when the address is non-zero???
     const [debouncedReceiver] = useDebounce(receiver, 500)
     console.log("Recevier", debouncedReceiver)
+    console.log("Core Emotion", coreEmotion)
+    console.log("Emotion Shade", emotionShade)
+
     const sharedEmotion: any = {
-        coreEmotion: keccak256(toUtf8Bytes("JOY")),
-        emotionShade: keccak256(toUtf8Bytes("Excitement")),
+        coreEmotion: keccak256(toUtf8Bytes(coreEmotion)),
+        emotionShade: formatBytes32String(emotionShade),
         associatedTx: formatBytes32String(debouncedAssociatedTx),
         timestamp: 0, // input ignored
         receiver: debouncedReceiver,
@@ -70,41 +75,143 @@ export function Share() {
                 write?.()
             }}
         >
-            <div className="p-2">
-                <input
-                    type="text"
-                    placeholder="receiver"
-                    onChange={(e) => setReceiver(e.target.value)}
-                    value={receiver}
-                />
+            <div className="form-control w-full max-w-xs">
+                <label className="label">
+                    <span className="label-text">
+                        Specific Emotion for Your Emofty
+                    </span>
+                    <span className="label-text-alt">Mandatory</span>
+                </label>
+                <select
+                    name="core-emotion"
+                    className="select select-bordered select-secondary"
+                    onChange={(e) => setEmotionsShade(e.target.value)}
+                >
+                    <option disabled selected>
+                        Describe Your Emotion
+                    </option>
+                    <option>happiness</option>
+                    <option>love</option>
+                    <option>relief</option>
+                    <option>contentment</option>
+                    <option>amusement</option>
+                    <option>joy</option>
+                    <option>pride</option>
+                    <option>excitement</option>
+                    <option>peace</option>
+                    <option>satisfaction</option>
+                    <option>lonely</option>
+                    <option>heartbroken</option>
+                    <option>gloomy</option>
+                    <option>disappointed</option>
+                    <option>hopeless</option>
+                    <option>grieved</option>
+                    <option>unhappy</option>
+                    <option>lost</option>
+                    <option>troubled</option>
+                    <option>resigned</option>
+                    <option>miserable</option>
+                    <option>worried</option>
+                    <option>doubtful</option>
+                    <option>nervous</option>
+                    <option>anxious</option>
+                    <option>terrified</option>
+                    <option>panicked</option>
+                    <option>horrified</option>
+                    <option>desperate</option>
+                    <option>confused</option>
+                    <option>stressed</option>
+                    <option>annoyed</option>
+                    <option>frustrated</option>
+                    <option>peeved</option>
+                    <option>contrary</option>
+                    <option>bitter</option>
+                    <option>infuriated</option>
+                    <option>irritated</option>
+                    <option>mad</option>
+                    <option>cheated</option>
+                    <option>vengeful</option>
+                    <option>insulted</option>
+                    <option>dislike</option>
+                    <option>revulsion</option>
+                    <option>loathing</option>
+                    <option>disapproving</option>
+                    <option>offended</option>
+                    <option>horrified</option>
+                    <option>uncomfortable</option>
+                    <option>nauseated</option>
+                    <option>disturbed</option>
+                    <option>withdrawn</option>
+                    <option>aversion</option>
+                </select>
             </div>
-            <div className="p-2">
-                <input
-                    type="text"
-                    placeholder="tx id"
-                    onChange={(e) => setAssociatedTx(e.target.value)}
-                    value={associatedTx}
-                />
+            <div className="form-control w-full max-w-xs">
+                <label className="label">
+                    <span className="label-text">
+                        Core Emotion for Your Emofty
+                    </span>
+                    <span className="label-text-alt">Mandatory</span>
+                </label>
+                <select
+                    name="core-emotion"
+                    className="select select-bordered select-secondary"
+                    onChange={(e) => setCoreEmotion(e.target.value)}
+                >
+                    <option disabled selected>
+                        Chose Core Emotion
+                    </option>
+                    <option value="JOY">joy</option>
+                    <option value="FEAR">fear</option>
+                    <option value="ANGER">anger</option>
+                    <option value="SADNESS">sadness</option>
+                    <option value="DISGUST">disgust</option>
+                    <option value="LOVE">love</option>
+                </select>
             </div>
-            <div className="p-2">
+            <div className="form-control w-full max-w-xs">
+                <label className="label">
+                    <span className="label-text">Memo</span>
+                    <span className="label-text-alt">Mandatory</span>
+                </label>
                 <input
+                    className="input input-bordered input-secondary w-full max-w-xs"
                     type="text"
                     placeholder="memo"
                     onChange={(e) => setMemo(e.target.value)}
                     value={memo}
                 />
             </div>
-            <select name="core-emotion" id="">
-                <option value="JOY">JOY</option>
-                <option value="FEAR">FEAR</option>
-                <option value="ANGER">ANGER</option>
-                <option value="SADNESS">SADNESS</option>
-                <option value="DISGUST">DISGUST</option>
-                <option value="LOVE">LOVE</option>
-            </select>
+
+            <div className="form-control w-full max-w-xs">
+                <label className="label">
+                    <span className="label-text">Transaction ID to Emote</span>
+                    <span className="label-text-alt">Optional</span>
+                </label>
+                <input
+                    className="input input-bordered input-secondary w-full max-w-xs"
+                    type="text"
+                    placeholder="Transaction ID"
+                    onChange={(e) => setAssociatedTx(e.target.value)}
+                    value={associatedTx}
+                />
+            </div>
+            <div className="form-control w-full max-w-xs">
+                <label className="label">
+                    <span className="label-text">Emofty Receiver Address</span>
+                    <span className="label-text-alt">Optional</span>
+                </label>
+                <input
+                    className="input input-bordered input-secondary w-full max-w-xs"
+                    type="text"
+                    placeholder="Receiver"
+                    onChange={(e) => setReceiver(e.target.value)}
+                    value={receiver}
+                />
+            </div>
+
             <div>
                 <button
-                    className="text-white bg-green-700 hover:bg-green-800 active:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5"
+                    className="btn btn-accent my-4"
                     disabled={
                         isLoading ||
                         !write ||
@@ -121,6 +228,7 @@ export function Share() {
                         <div>
                             <a
                                 href={`https://goerli.etherscan.io/tx/${data?.hash}`}
+                                target="_blank"
                             >
                                 Etherscan
                             </a>
@@ -134,3 +242,7 @@ export function Share() {
         </form>
     )
 }
+
+const ArweaveShare = () => {}
+
+export { EvmShare, ArweaveShare }

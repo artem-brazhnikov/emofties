@@ -7,11 +7,12 @@ import EmoftyCard from "../emofties/EmoftyCard"
 
 const EMOFTIES = gql`
     query {
-        emofties {
+        emofties(orderBy: timestamp, orderDirection: desc) {
             # id
             emoftyId
             sender
             coreEmotion
+            emotionShade
             receiver
             memo
             # timestamp

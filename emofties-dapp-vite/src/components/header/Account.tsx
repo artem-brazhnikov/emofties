@@ -66,7 +66,7 @@ const Account = () => {
             {/* Connect Button */}
             {connectors.map((connector) => (
                 <button
-                    className="text-white bg-green-700 hover:bg-green-800 active:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5"
+                    className="btn btn-primary"
                     disabled={!connector.ready}
                     key={connector.id}
                     onClick={() =>

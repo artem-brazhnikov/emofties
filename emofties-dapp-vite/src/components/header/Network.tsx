@@ -5,7 +5,13 @@ const Network = () => {
     console.log("Chains", chains)
     return (
         <div>
-            <select name="chains">
+            <select
+                name="chains"
+                className="select select-primary w-full max-w-xs"
+            >
+                <option disabled selected>
+                    Select Network
+                </option>
                 {chains.map((chain) => (
                     <option
                         value={chain.network}
