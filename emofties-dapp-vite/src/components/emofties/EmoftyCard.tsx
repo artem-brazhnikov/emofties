@@ -26,16 +26,54 @@ const EmoftyCard = ({ emofty }: Props) => {
     } catch (err) {
         console.error("parseBytes32String error", err)
     }
+
+    const coreEmotionStr = coreEmotionsMap.get(emofty.coreEmotion.toString())
+    let shadowColor
+    switch (coreEmotionStr) {
+        case "JOY":
+            shadowColor = "shadow-yellow-200"
+            break
+        case "FEAR":
+            shadowColor = "shadow-purple-400"
+            break
+        case "ANGER":
+            shadowColor = "shadow-red-400"
+            break
+        case "SADNESS":
+            shadowColor = "shadow-cyan-500"
+            break
+        case "DISGUST":
+            shadowColor = "shadow-green-300"
+            break
+        case "LOVE":
+            shadowColor = "shadow-pink-300"
+            break
+        default:
+            shadowColor = "shadow-slate-500"
+    }
+
     return (
-        <div className="flex flex-col gap-2 justify-evenly items-center p-3 rounded-lg shadow-cyan-500 shadow-lg">
-            <div className="shadow-lg rounded-md p-1 shadow-pink-400">
-                {coreEmotionsMap.get(emofty.coreEmotion.toString())}
+        <div className={`card w-96 bg-base-100 shadow-xl ${shadowColor}`}>
+            <figure>
+                <img
+                    src="/assets/emotions-social-graph.jpg"
+                    alt="Emofty Image"
+                />
+            </figure>
+            <div className="card-body">
+                <h2 className="card-title">
+                    {parsedEmotionShade}
+                    <div className={`badge badge-secondary`}>
+                        {coreEmotionsMap.get(emofty.coreEmotion.toString())}
+                    </div>
+                </h2>
+                <p>{emofty.memo}</p>
+                <div className="card-actions justify-end">
+                    <div className="badge badge-outline">{emofty.sender}</div>
+                    {/* <div className="badge badge-outline">{emofty.emoftyId}</div> */}
+                    {/* <div className="badge badge-outline">{emofty.receiver}</div> */}
+                </div>
             </div>
-            <div>{parsedEmotionShade}</div>
-            <div>{emofty.sender}</div>
-            <div>{emofty.emoftyId}</div>
-            <div>{emofty.receiver}</div>
-            <div>{emofty.memo}</div>
         </div>
     )
 }
