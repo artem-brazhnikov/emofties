@@ -37,9 +37,6 @@ const EvmShare = () => {
         "0x0000000000000000000000000000000000000000"
     ) // fails when the address is non-zero???
     const [debouncedReceiver] = useDebounce(receiver, 500)
-    console.log("Recevier", debouncedReceiver)
-    console.log("Core Emotion", coreEmotion)
-    console.log("Emotion Shade", emotionShade)
 
     const sharedEmotion: any = {
         coreEmotion: keccak256(toUtf8Bytes(coreEmotion)),
@@ -213,8 +210,8 @@ const EvmShare = () => {
                 <button
                     className="btn btn-accent my-4"
                     disabled={
-                        isLoading ||
-                        !write ||
+                        !emotionShade ||
+                        !coreEmotion ||
                         !receiver ||
                         !memo ||
                         !associatedTx
@@ -243,6 +240,4 @@ const EvmShare = () => {
     )
 }
 
-const ArweaveShare = () => {}
-
-export { EvmShare, ArweaveShare }
+export default EvmShare

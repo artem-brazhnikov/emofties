@@ -20,103 +20,105 @@ const Emofty = z.object({
 })
 
 export type Emofty = z.infer<typeof Emofty>
+export type TxData = {
+  tags: { name: string; value: string }[]
+  data: string
+}
 
-export class ArweaveEmoftiesService {
-  private key: JWKInterface | undefined
+const generateArweaveKey = async (): Promise<JWKInterface> => {
+  const key = await arweave.wallets.generate()
+  const addr = await arweave.wallets.jwkToAddress(key)
+  const tokens = arweave.ar.arToWinston("100")
+  console.log(`Addr: ${addr}, AR winstons: ${tokens}`)
+  // mint some tokens
+  await arweave.api.get(`mint/${addr}/${tokens}`)
+  await arweave.api.get("mine")
+  return key
+}
 
-  constructor(key: JWKInterface | undefined) {
-    this.key = key
-  }
+let key: JWKInterface | undefined
+generateArweaveKey()
+  .then((resKey) => (key = resKey))
+  .catch((err) => console.error("Arweve gen key error", err))
 
-  parseEmoftyTx = (tx: any) => {
-    try {
-      return Emofty.parse({
-        id: tx.id,
-        unixTime: tx.tags.find((tag: Tag) => tag.name === "Unix-Time").value,
-        coreEmotion: tx.tags.find((tag: Tag) => tag.name === "Core-Emotion")
-          .value,
-        emotionShade: tx.tags.find((tag: Tag) => tag.name === "Emotion-Shade")
-          .value,
-        emoji: tx.tags.find((tag: Tag) => tag.name === "Emoji").value,
-        chainId: tx.tags.find((tag: Tag) => tag.name === "Chain-Id").value,
-        chainTx: tx.tags.find((tag: Tag) => tag.name === "Chain-Tx").value,
-      })
-    } catch (err) {
-      console.error(err)
-      return null
-    }
-  }
-
-  createEmoftyTx = (
-    formData: any,
-    contentType: string | "text/plain",
-    version: string | "0.1"
-  ) => {
-    return {
-      tags: [
-        { name: "App-Name", value: "Emofties-Dapp" },
-        { name: "Protocol", value: "Emofties" },
-        { name: "Content-Type", value: contentType },
-        { name: "App-Version", value: version },
-        { name: "Unx-Time", value: formData.unixTime },
-        { name: "Core-Emotion", value: formData.coreEmotion },
-        { name: "Emotion-Shade", value: formData.emotionShade },
-        { name: "Emoji", value: formData.emoji },
-        { name: "Chain-Id", value: formData.chainId },
-        { name: "Chain-Tx", value: formData.chainTx },
-      ],
-    }
-  }
-
-  createDummyEmoftyTx = (
-    formData: any,
-    contentType: string | "text/plain",
-    version: string | "0.1"
-  ) => {
-    return {
-      tags: [
-        { name: "App-Name", value: "Emofties-Dapp" },
-        { name: "Protocol", value: "Emofties" },
-        { name: "Content-Type", value: contentType },
-        { name: "App-Version", value: version },
-        { name: "Unx-Time", value: 1675333392 },
-        { name: "Core-Emotion", value: "JOY" },
-        { name: "Emotion-Shade", value: "SATISFACTION" },
-        { name: "Emoji", value: "x" },
-        { name: "Chain-Id", value: "1" },
-        { name: "Chain-Tx", value: "0x" },
-      ],
-    }
-  }
-
-  publishEmoftyTransaction = async (
-    key: JWKInterface | undefined,
-    tags: Tag[]
-  ) => {
-    let tx = await arweave.createTransaction(
-      {
-        data: "Hello World",
-        tags,
-      },
-      key ?? "use_wallet"
-    )
-    await arweave.transactions.sign(tx, key ?? "use_wallet")
-
-    const uploader = await arweave.transactions.getUploader(tx)
-    while (!uploader.isComplete) {
-      await uploader.uploadChunk()
-      console.log(`${uploader.pctComplete}%`)
-    }
-  }
-
-  static generateArweaveKey = async (): Promise<JWKInterface> => {
-    const key = await arweave.wallets.generate()
-    const addr = await arweave.wallets.jwkToAddress(key)
-    const tokens = arweave.ar.arToWinston("100")
-    console.log(`Key: ${key}, Addr: ${addr}, AR winstons: ${tokens}`)
-    // mint some tokens
-    await arweave.api.get(`mint/${addr}/${tokens}`)
-    await arweave.api.get("mine")
-    return key
+const parseEmoftyTx = (tx: any) => {
+  try {
+    return Emofty.parse({
+      id: tx.id,
+      unixTime: tx.tags.find((tag: Tag) => tag.name === "Unix-Time").value,
+      coreEmotion: tx.tags.find((tag: Tag) => tag.name === "Core-Emotion")
+        .value,
+      emotionShade: tx.tags.find((tag: Tag) => tag.name === "Emotion-Shade")
+        .value,
+      emoji: tx.tags.find((tag: Tag) => tag.name === "Emoji").value,
+      chainId: tx.tags.find((tag: Tag) => tag.name === "Chain-Id").value,
+      chainTx: tx.tags.find((tag: Tag) => tag.name === "Chain-Tx").value,
+    })
+  } catch (err) {
+    console.error(err)
+    return null
   }
 }
+
+const prepareEmoftyTx = (
+  formData: any,
+  contentType: string | "text/plain",
+  version: string | "0.1"
+): TxData => {
+  return {
+    tags: [
+      { name: "App-Name", value: "Emofties-Dapp" },
+      { name: "Protocol", value: "Emofties" },
+      { name: "Content-Type", value: contentType },
+      { name: "App-Version", value: version },
+      { name: "Unix-Time", value: formData.unixTime },
+      { name: "Core-Emotion", value: formData.coreEmotion },
+      { name: "Emotion-Shade", value: formData.emotionShade },
+      // { name: "Emoji", value: formData.emoji},
+      { name: "Chain-Id", value: formData.chainId },
+      { name: "Chain-Tx", value: formData.chainTx },
+    ],
+    data: formData.memo,
+  }
+}
+
+const preapreDummyEmoftyTx = (
+  formData: any,
+  contentType: string | "text/plain",
+  version: string | "0.1"
+): TxData => {
+  return {
+    tags: [
+      { name: "App-Name", value: "Emofties-Dapp" },
+      { name: "Protocol", value: "Emofties" },
+      { name: "Content-Type", value: contentType },
+      { name: "App-Version", value: version },
+      { name: "Unix-Time", value: "1675333392" },
+      { name: "Core-Emotion", value: "JOY" },
+      { name: "Emotion-Shade", value: "SATISFACTION" },
+      // { name: "Emoji", value: "x" },
+      { name: "Chain-Id", value: "1" },
+      { name: "Chain-Tx", value: "0x" },
+    ],
+    data: "Hello World",
+  }
+}
+
+const publishEmoftyTransaction = async (txData: TxData) => {
+  let tx = await arweave.createTransaction(
+    {
+      data: txData.data,
+    },
+    key ?? "use_wallet"
+  )
+  txData.tags.map(({ name, value }) => tx.addTag(name, value))
+  await arweave.transactions.sign(tx, key ?? "use_wallet")
+
+  const uploader = await arweave.transactions.getUploader(tx)
+  while (!uploader.isComplete) {
+    await uploader.uploadChunk()
+    console.log(`${uploader.pctComplete}%`)
+  }
+}
+
+export { generateArweaveKey, publishEmoftyTransaction, prepareEmoftyTx }
