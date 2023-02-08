@@ -11,11 +11,11 @@ export const arweave = Arweave.init({
 
 const Emofty = z.object({
   id: z.string(),
-  unixTime: z.number(),
-  coreEmotion: z.string().max(7),
+  unixTime: z.string(),
+  coreEmotion: z.string().max(66),
   emotionShade: z.string().max(20),
-  emoji: z.string().max(4), //temp
-  chainId: z.number(),
+  // emoji: z.string().max(4), //temp
+  chainId: z.string(),
   chainTx: z.string().max(66),
 })
 
@@ -50,7 +50,7 @@ const parseEmoftyTx = (tx: any) => {
         .value,
       emotionShade: tx.tags.find((tag: Tag) => tag.name === "Emotion-Shade")
         .value,
-      emoji: tx.tags.find((tag: Tag) => tag.name === "Emoji").value,
+      // emoji: tx.tags.find((tag: Tag) => tag.name === "Emoji").value,
       chainId: tx.tags.find((tag: Tag) => tag.name === "Chain-Id").value,
       chainTx: tx.tags.find((tag: Tag) => tag.name === "Chain-Tx").value,
     })
@@ -121,4 +121,47 @@ const publishEmoftyTransaction = async (txData: TxData) => {
   }
 }
 
-export { generateArweaveKey, publishEmoftyTransaction, prepareEmoftyTx }
+const queryEmoftyTransactions = async () => {
+  const queryObject = {
+    query: `{
+      transactions(
+        first: 100,
+        tags: [{
+            name: "App-Name",
+            values: ["Emofties-Dapp"]
+          }]
+      ) {
+        edges {
+          node {
+            id
+            tags {
+              name
+              value
+            }
+            data {
+              size
+            }
+          }
+        }
+      }
+    }
+    `,
+  }
+
+  const results = await arweave.api
+    .post("/graphql", queryObject)
+    .catch((err) => {
+      console.log("GraphQl query failed")
+      throw new Error(err)
+    })
+  console.log("Arweave query results", results)
+  return results?.data?.data?.transactions?.edges
+}
+
+export {
+  generateArweaveKey,
+  publishEmoftyTransaction,
+  queryEmoftyTransactions,
+  prepareEmoftyTx,
+  parseEmoftyTx,
+}

@@ -38,7 +38,10 @@ const Feed = () => {
             {loading && <span>Loading Emofties...</span>}
             {error && <span>{error?.message}</span>}
             {emoftiesCol && (
-                <div className=" flex flex-col gap-10 items-center">
+                <div
+                    // className="grid grid-cols-3 gap-10 justify-items-center"
+                    className="flex flex-col gap-10 items-center"
+                >
                     {emoftiesCol.map((emofty) => (
                         <EmoftyCard emofty={emofty} />
                     ))}

@@ -16,12 +16,17 @@ const coreEmotionsMap = (() => {
 
 type Props = {
     emofty: Emofty
+    isArweave?: boolean
 }
-const EmoftyCard = ({ emofty }: Props) => {
+const EmoftyCard = ({ emofty, isArweave = false }: Props) => {
     let parsedEmotionShade = "No Emotion Shade"
     try {
         if (emofty.emotionShade) {
-            parsedEmotionShade = parseBytes32String(emofty.emotionShade)
+            if (isArweave) {
+                parsedEmotionShade = emofty.emotionShade.toString()
+            } else {
+                parsedEmotionShade = parseBytes32String(emofty.emotionShade)
+            }
         }
     } catch (err) {
         console.error("parseBytes32String error", err)

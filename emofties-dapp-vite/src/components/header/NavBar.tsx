@@ -6,7 +6,7 @@ const NavBar = () => {
             ? "text-blue-900 bg-teal-100 rounded-md p-2"
             : isPending
             ? "text-blue-900 p-2"
-            : "hover:text-blue-900 p-2"
+            : "hover:text-teal-100 p-2"
     return (
         <nav className="flex gap-6">
             <NavLink className="p-2" to={"/"}>
