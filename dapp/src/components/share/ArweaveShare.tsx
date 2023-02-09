@@ -174,11 +174,7 @@ const ArweaveShare = () => {
                 <button
                     className="btn btn-accent my-4"
                     disabled={
-                        !emotionShade ||
-                        !coreEmotion ||
-                        !receiver ||
-                        !memo ||
-                        !associatedTx
+                        !emotionShade || !coreEmotion || !receiver || !memo
                     }
                 >
                     {isLoading ? "Sharing..." : "Share"}
