@@ -66,15 +66,17 @@ const EmoftyCard = ({ emofty, isArweave = false }: Props) => {
                 />
             </figure>
             <div className="card-body">
+                <div className="badge badge-outline">author</div>
+                <div className="badge badge-primary gap-2">{emofty.sender}</div>
                 <h2 className="card-title">
                     {parsedEmotionShade}
                     <div className={`badge badge-secondary`}>
                         {coreEmotionsMap.get(emofty.coreEmotion.toString())}
                     </div>
                 </h2>
+                <div className="badge badge-outline">memo</div>
                 <p>{emofty.memo}</p>
-                <div className="card-actions justify-end">
-                    <div className="badge badge-outline">{emofty.sender}</div>
+                <div className="card-actions">
                     {/* <div className="badge badge-outline">{emofty.emoftyId}</div> */}
                     {/* <div className="badge badge-outline">{emofty.receiver}</div> */}
                 </div>
