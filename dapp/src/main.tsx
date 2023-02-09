@@ -37,7 +37,7 @@ const { chains, provider, webSocketProvider } = configureChains(
     [mainnet, goerli, polygon, arbitrum, arbitrumGoerli],
     [
         alchemyProvider({
-            apiKey: "R-eWeP3NgwNItKOpwnL972eb6A7aGWyA",
+            apiKey: import.meta.env.VITE_ALCHEMY_API_KEY,
             priority: 0,
         }),
         // publicProvider({ priority: 1 }),
