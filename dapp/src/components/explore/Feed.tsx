@@ -7,13 +7,19 @@ import EmoftyCard from "../emofties/EmoftyCard"
 
 const EMOFTIES = gql`
     query {
-        emofties(orderBy: timestamp, orderDirection: desc) {
+        # emofties(orderBy: timestamp, orderDirection: desc) {
+        emofties(
+            where: { _change_block: { number_gte: 8450495 } }
+            orderBy: timestamp
+            orderDirection: desc
+        ) {
             # id
             emoftyId
             sender
             coreEmotion
             emotionShade
             receiver
+            associatedTx
             memo
             # timestamp
             # blockNumber
