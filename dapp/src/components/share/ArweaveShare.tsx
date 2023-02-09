@@ -20,8 +20,7 @@ export type CoreEmotion =
     | "LOVE"
 
 const ArweaveShare = () => {
-    const isLoading = false
-
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [coreEmotion, setCoreEmotion] = useState<string>("")
     const [emotionShade, setEmotionsShade] = useState<string>("")
     const [memo, setMemo] = useState<string>("")
@@ -45,8 +44,14 @@ const ArweaveShare = () => {
     return (
         <form
             onSubmit={(e) => {
+                setIsLoading(true)
                 e.preventDefault()
                 publishEmoftyTransaction(emoftyTxData)
+                    .then(() => setIsLoading(false))
+                    .catch((err) => {
+                        setIsLoading(false)
+                        console.error("Publish emofty error", err)
+                    })
             }}
         >
             <div className="form-control w-full max-w-xs">
