@@ -19,7 +19,7 @@ type Props = {
     isArweave?: boolean
 }
 const EmoftyCard = ({ emofty, isArweave = false }: Props) => {
-    let parsedEmotionShade = "Emotion Display Errors"
+    let parsedEmotionShade = "Emotion Display Error"
     try {
         if (emofty.emotionShade) {
             if (isArweave) {
