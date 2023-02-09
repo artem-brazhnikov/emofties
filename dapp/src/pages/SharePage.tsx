@@ -4,8 +4,8 @@ import EvmShare from "../components/share/EvmShare"
 const SharePage = () => {
     return (
         <>
-            {/* <EvmShare /> */}
-            <ArweaveShare />
+            <EvmShare />
+            {/* <ArweaveShare /> */}
         </>
     )
 }
