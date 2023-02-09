@@ -1,4 +1,9 @@
-import { keccak256, parseBytes32String, toUtf8Bytes } from "ethers/lib/utils.js"
+import {
+    hexlify,
+    keccak256,
+    parseBytes32String,
+    toUtf8Bytes,
+} from "ethers/lib/utils.js"
 import { Emofty } from "../../../../subgraph-goerli/generated/schema"
 
 type CoreEmotion = "JOY" | "FEAR" | "ANGER" | "SADNESS" | "DISGUST" | "LOVE"
@@ -15,11 +20,11 @@ const coreEmotionsMap = (() => {
 })()
 
 type Props = {
-    emofty: Emofty
+    emofty: Emofty | any
     isArweave?: boolean
 }
 const EmoftyCard = ({ emofty, isArweave = false }: Props) => {
-    let parsedEmotionShade = "Emotion Display Error"
+    let parsedEmotionShade
     try {
         if (emofty.emotionShade) {
             if (isArweave) {
@@ -66,19 +71,64 @@ const EmoftyCard = ({ emofty, isArweave = false }: Props) => {
                 />
             </figure>
             <div className="card-body">
-                <div className="badge badge-outline">author</div>
-                <div className="badge badge-primary gap-2">{emofty.sender}</div>
-                <h2 className="card-title">
+                <a
+                    className="badge badge-outline link link-primary tooltip tooltip-left"
+                    data-tip="Sender"
+                    href={`https://goerli.etherscan.io/address/${emofty.sender}`}
+                    target="_blank"
+                >
+                    {emofty.sender}
+                </a>
+                {/* <div className="badge badge-primary gap-2">{emofty.sender}</div> */}
+                <h2
+                    className="card-title tooltip tooltip-left"
+                    data-tip="Emotion"
+                >
                     {parsedEmotionShade}
                     <div className={`badge badge-secondary`}>
                         {coreEmotionsMap.get(emofty.coreEmotion.toString())}
                     </div>
                 </h2>
-                <div className="badge badge-outline">memo</div>
-                <p>{emofty.memo}</p>
+                {emofty.memo && (
+                    <div
+                        className="badge badge-outline tooltip tooltip-left"
+                        data-tip="Memo"
+                    >
+                        {emofty.memo}
+                    </div>
+                )}
+
                 <div className="card-actions">
-                    {/* <div className="badge badge-outline">{emofty.emoftyId}</div> */}
-                    {/* <div className="badge badge-outline">{emofty.receiver}</div> */}
+                    {emofty.receiver &&
+                        emofty.receiver.toString() !=
+                            "0x0000000000000000000000000000000000000000" && (
+                            <a
+                                className="badge badge-outline link link-primary tooltip tooltip-left"
+                                data-tip="Receiver"
+                                href={`https://goerli.etherscan.io/address/${emofty.receiver}`}
+                                target="_blank"
+                            >
+                                {emofty.receiver}
+                            </a>
+                        )}
+                    {emofty.associatedTx &&
+                        hexlify(emofty.associatedTx) !==
+                            "0x3078000000000000000000000000000000000000000000000000000000000000" && (
+                            <a
+                                className="badge badge-outline link link-secondary tooltip tooltip-left"
+                                data-tip="Associated with Transaction"
+                                href={`https://goerli.etherscan.io/tx/${emofty.associatedTx}`}
+                                target="_blank"
+                            >
+                                {`${emofty.associatedTx.slice(
+                                    0,
+                                    20
+                                )}....${emofty.associatedTx.slice(
+                                    emofty.associatedTx.length - 20,
+                                    emofty.associatedTx.length
+                                )}`}
+                            </a>
+                        )}
                 </div>
             </div>
         </div>
