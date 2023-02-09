@@ -3,7 +3,7 @@
     "tags": [
         {
             "name": "App-Name",
-            "value": "Emofties-Dapp"
+            "value": "Emofties"
         },
         {
             "name": "Protocol",
@@ -28,14 +28,6 @@
         {
             "name": "Emotion-Shade",
             "value": "SATISFACTION"
-        },
-        {
-            "name": "Chain-Id",
-            "value": "1"
-        },
-        {
-            "name": "Chain-Tx",
-            "value": "0x"
         }
     ]
 }

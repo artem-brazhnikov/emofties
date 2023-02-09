@@ -14,9 +14,6 @@ const Emofty = z.object({
   unixTime: z.string(),
   coreEmotion: z.string().max(66),
   emotionShade: z.string().max(20),
-  // emoji: z.string().max(4), //temp
-  chainId: z.string(),
-  chainTx: z.string().max(66),
 })
 
 export type Emofty = z.infer<typeof Emofty>
@@ -50,9 +47,6 @@ const parseEmoftyTx = (tx: any) => {
         .value,
       emotionShade: tx.tags.find((tag: Tag) => tag.name === "Emotion-Shade")
         .value,
-      // emoji: tx.tags.find((tag: Tag) => tag.name === "Emoji").value,
-      chainId: tx.tags.find((tag: Tag) => tag.name === "Chain-Id").value,
-      chainTx: tx.tags.find((tag: Tag) => tag.name === "Chain-Tx").value,
     })
   } catch (err) {
     console.error(err)
@@ -67,40 +61,15 @@ const prepareEmoftyTx = (
 ): TxData => {
   return {
     tags: [
-      { name: "App-Name", value: "Emofties-Dapp" },
+      { name: "App-Name", value: "Emofties" },
       { name: "Protocol", value: "Emofties" },
       { name: "Content-Type", value: contentType },
       { name: "App-Version", value: version },
       { name: "Unix-Time", value: formData.unixTime },
       { name: "Core-Emotion", value: formData.coreEmotion },
       { name: "Emotion-Shade", value: formData.emotionShade },
-      // { name: "Emoji", value: formData.emoji},
-      { name: "Chain-Id", value: formData.chainId },
-      { name: "Chain-Tx", value: formData.chainTx },
     ],
     data: formData.memo,
-  }
-}
-
-const preapreDummyEmoftyTx = (
-  formData: any,
-  contentType: string | "text/plain",
-  version: string | "0.1"
-): TxData => {
-  return {
-    tags: [
-      { name: "App-Name", value: "Emofties-Dapp" },
-      { name: "Protocol", value: "Emofties" },
-      { name: "Content-Type", value: contentType },
-      { name: "App-Version", value: version },
-      { name: "Unix-Time", value: "1675333392" },
-      { name: "Core-Emotion", value: "JOY" },
-      { name: "Emotion-Shade", value: "SATISFACTION" },
-      // { name: "Emoji", value: "x" },
-      { name: "Chain-Id", value: "1" },
-      { name: "Chain-Tx", value: "0x" },
-    ],
-    data: "Hello World",
   }
 }
 
@@ -128,7 +97,7 @@ const queryEmoftyTransactions = async () => {
         first: 100,
         tags: [{
             name: "App-Name",
-            values: ["Emofties-Dapp"]
+            values: ["Emofties"]
           }]
       ) {
         edges {

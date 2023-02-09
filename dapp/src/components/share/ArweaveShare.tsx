@@ -27,9 +27,6 @@ const ArweaveShare = () => {
     const [memo, setMemo] = useState<string>("")
     const [debouncedMemo] = useDebounce(memo, 500)
 
-    const [associatedTx, setAssociatedTx] = useState<string>("0x")
-    const [debouncedAssociatedTx] = useDebounce(associatedTx, 500)
-
     const [receiver, setReceiver] = useState<string>(
         "0x0000000000000000000000000000000000000000"
     ) // fails when the address is non-zero???
@@ -38,9 +35,7 @@ const ArweaveShare = () => {
     const sharedEmotion: any = {
         coreEmotion: keccak256(toUtf8Bytes(coreEmotion)),
         emotionShade: emotionShade,
-        chainTx: debouncedAssociatedTx,
-        chainId: 5,
-        unixTime: Date.now(),
+        unixTime: Math.round(new Date().getTime() / 1000),
         receiver: debouncedReceiver,
         memo: debouncedMemo,
     }
@@ -161,19 +156,6 @@ const ArweaveShare = () => {
                 />
             </div>
 
-            <div className="form-control w-full max-w-xs">
-                <label className="label">
-                    <span className="label-text">Transaction ID to Emote</span>
-                    <span className="label-text-alt">Optional</span>
-                </label>
-                <input
-                    className="input input-bordered input-secondary w-full max-w-xs"
-                    type="text"
-                    placeholder="Transaction ID"
-                    onChange={(e) => setAssociatedTx(e.target.value)}
-                    value={associatedTx}
-                />
-            </div>
             <div className="form-control w-full max-w-xs">
                 <label className="label">
                     <span className="label-text">Emofty Receiver Address</span>
