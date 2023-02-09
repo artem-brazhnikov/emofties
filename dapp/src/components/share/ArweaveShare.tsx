@@ -57,7 +57,7 @@ const ArweaveShare = () => {
             <div className="form-control w-full max-w-xs">
                 <label className="label">
                     <span className="label-text">
-                        Specific Emotion for Your Emofty
+                        Specific Emotion for Emofty
                     </span>
                     <span className="label-text-alt">Mandatory</span>
                 </label>
@@ -126,9 +126,7 @@ const ArweaveShare = () => {
             </div>
             <div className="form-control w-full max-w-xs">
                 <label className="label">
-                    <span className="label-text">
-                        Core Emotion for Your Emofty
-                    </span>
+                    <span className="label-text">Core Emotion for Emofty</span>
                     <span className="label-text-alt">Mandatory</span>
                 </label>
                 <select
@@ -179,7 +177,11 @@ const ArweaveShare = () => {
                 <button
                     className="btn btn-accent my-4"
                     disabled={
-                        !emotionShade || !coreEmotion || !receiver || !memo
+                        !emotionShade ||
+                        !coreEmotion ||
+                        !receiver ||
+                        !memo ||
+                        isLoading
                     }
                 >
                     {isLoading ? "Sharing..." : "Share"}
