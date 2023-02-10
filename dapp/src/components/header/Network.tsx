@@ -12,12 +12,10 @@ const Network = () => {
                 {/* <option disabled selected>
                     Select Network
                 </option> */}
-                {chains && chains.length === 0 && (
-                    <option value={goerli.name} selected={true}>
-                        {goerli.name}
-                    </option>
-                )}
-                {chains &&
+                <option value={goerli.name} selected={true}>
+                    {goerli.name}
+                </option>
+                {/* {chains &&
                     chains.length > 0 &&
                     chains.map((chain) => (
                         <option
@@ -26,7 +24,7 @@ const Network = () => {
                         >
                             {chain.name}
                         </option>
-                    ))}
+                    ))} */}
             </select>
         </div>
     )
