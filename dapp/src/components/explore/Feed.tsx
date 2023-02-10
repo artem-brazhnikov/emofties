@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client"
 import { useEffect, useState } from "react"
 import ErrorPage from "../../pages/ErrorPage"
 
-import { Emofty } from "../../../../subgraph-goerli/generated/schema"
+// import { Emofty } from "../../../../subgraph-goerli/generated/schema"
 import EmoftyCard from "../emofties/EmoftyCard"
 
 const EMOFTIES = gql`
@@ -30,7 +30,7 @@ const EMOFTIES = gql`
 `
 
 const Feed = () => {
-    const [emoftiesCol, setEmoftiesCol] = useState<Emofty[]>([])
+    const [emoftiesCol, setEmoftiesCol] = useState<any[]>([])
     const { loading, error, data } = useQuery(EMOFTIES)
 
     useEffect(() => {

@@ -4,9 +4,7 @@ import {
     parseBytes32String,
     toUtf8Bytes,
 } from "ethers/lib/utils.js"
-import { Emofty } from "../../../../subgraph-goerli/generated/schema"
-
-type CoreEmotion = "JOY" | "FEAR" | "ANGER" | "SADNESS" | "DISGUST" | "LOVE"
+// import { Emofty } from "../../../../subgraph-goerli/generated/schema"
 
 const coreEmotionsMap = (() => {
     const emotionsMap: Map<string, string> = new Map()
@@ -20,7 +18,7 @@ const coreEmotionsMap = (() => {
 })()
 
 type Props = {
-    emofty: Emofty | any
+    emofty: any
     isArweave?: boolean
 }
 const EmoftyCard = ({ emofty, isArweave = false }: Props) => {

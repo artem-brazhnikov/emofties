@@ -18,14 +18,7 @@ import {
 
 import EmoftiesAbi from "../../../../artifacts/contracts/EmoftiesProtocol.sol/EmoftiesProtocol.json"
 import EmoftyCard from "../emofties/EmoftyCard"
-
-export type CoreEmotion =
-    | "JOY"
-    | "FEAR"
-    | "ANGER"
-    | "SADNESS"
-    | "DISGUST"
-    | "LOVE"
+import { CoreEmotion } from "../../emofties-lib"
 
 const EvmShare = () => {
     const [coreEmotion, setCoreEmotion] = useState<string>("")

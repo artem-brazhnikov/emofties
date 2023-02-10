@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import { Emofty } from "../../../../subgraph-goerli/generated/schema"
+// import { Emofty } from "../../../../subgraph-goerli/generated/schema"
 import EmoftyCard from "../emofties/EmoftyCard"
 import {
     parseEmoftyTx,
@@ -8,7 +8,7 @@ import {
 } from "../../services/ArweaveEmofties"
 
 const ArweaveFeed = () => {
-    const [emoftiesCol, setEmoftiesCol] = useState<Emofty[]>([])
+    const [emoftiesCol, setEmoftiesCol] = useState<any[]>([])
 
     useEffect(() => {
         const queryArweave = async () => {
