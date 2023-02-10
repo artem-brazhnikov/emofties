@@ -34,15 +34,14 @@ const apolloClient = new ApolloClient({
 })
 
 const { chains, provider, webSocketProvider } = configureChains(
-    [mainnet, goerli, polygon, arbitrum, arbitrumGoerli],
+    [goerli],
     [
         alchemyProvider({
             apiKey: import.meta.env.VITE_ALCHEMY_API_KEY,
             priority: 0,
         }),
-        // publicProvider({ priority: 1 }),
+        publicProvider({ priority: 1 }),
     ]
-    //todo: add alchemy and infura providers
 )
 
 const wagmiClient = createClient({

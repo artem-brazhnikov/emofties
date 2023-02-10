@@ -73,7 +73,7 @@ const Account = () => {
                         isConnected ? disconnect() : connect({ connector })
                     }
                 >
-                    {isConnected && (
+                    {isConnected && address && (
                         <span>
                             {ensAvatar && (
                                 <img
@@ -81,8 +81,11 @@ const Account = () => {
                                     alt="ENS Avatar"
                                 />
                             )}
-                            {ensName ? ensName : address}
-                            {` Disconnect from ${connector?.name} `}
+                            {ensName ??
+                                `${address.slice(0, 6)}....${address.slice(
+                                    address.length - 6,
+                                    address.length
+                                )}`}
                         </span>
                     )}
                     {isDisconnected && <span>Connect to {connector.name}</span>}

@@ -1,4 +1,4 @@
-import { useNetwork } from "wagmi"
+import { goerli, useNetwork } from "wagmi"
 
 const Network = () => {
     const { chain: connectedChain, chains } = useNetwork()
@@ -9,17 +9,24 @@ const Network = () => {
                 name="chains"
                 className="select select-primary w-full max-w-xs"
             >
-                <option disabled selected>
+                {/* <option disabled selected>
                     Select Network
-                </option>
-                {chains.map((chain) => (
-                    <option
-                        value={chain.network}
-                        selected={chain.id === connectedChain?.id}
-                    >
-                        {chain.name}
+                </option> */}
+                {chains && chains.length === 0 && (
+                    <option value={goerli.name} selected={true}>
+                        {goerli.name}
                     </option>
-                ))}
+                )}
+                {chains &&
+                    chains.length > 0 &&
+                    chains.map((chain) => (
+                        <option
+                            value={chain.network}
+                            selected={chain.id === connectedChain?.id}
+                        >
+                            {chain.name}
+                        </option>
+                    ))}
             </select>
         </div>
     )
