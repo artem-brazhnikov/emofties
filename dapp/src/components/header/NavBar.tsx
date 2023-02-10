@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom"
+import socialGraphImage from "../../../assets/emotions-social-graph.jpg"
 
 const NavBar = () => {
     const evaluateNavLinkClass = ({ isActive, isPending }: any) =>
@@ -10,11 +11,7 @@ const NavBar = () => {
     return (
         <nav className="flex gap-6">
             <NavLink className="p-2" to={"/"}>
-                <img
-                    className=" w-8 h-8"
-                    src="/assets/emotions-social-graph.jpg"
-                    alt=""
-                />
+                <img className=" w-8 h-8" src={socialGraphImage} alt="" />
             </NavLink>
             <NavLink className={evaluateNavLinkClass} to={"/"}>
                 Home

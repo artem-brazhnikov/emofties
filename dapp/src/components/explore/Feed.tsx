@@ -1,8 +1,6 @@
 import { gql, useQuery } from "@apollo/client"
 import { useEffect, useState } from "react"
 import ErrorPage from "../../pages/ErrorPage"
-
-// import { Emofty } from "../../../../subgraph-goerli/generated/schema"
 import EmoftyCard from "../emofties/EmoftyCard"
 
 const EMOFTIES = gql`

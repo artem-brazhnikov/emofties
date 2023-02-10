@@ -4,7 +4,7 @@ import {
     parseBytes32String,
     toUtf8Bytes,
 } from "ethers/lib/utils.js"
-// import { Emofty } from "../../../../subgraph-goerli/generated/schema"
+import socialGraphImage from "../../../assets/emotions-social-graph.jpg"
 
 const coreEmotionsMap = (() => {
     const emotionsMap: Map<string, string> = new Map()
@@ -63,10 +63,7 @@ const EmoftyCard = ({ emofty, isArweave = false }: Props) => {
     return (
         <div className={`card w-96 bg-base-100 shadow-xl ${shadowColor}`}>
             <figure>
-                <img
-                    src="/assets/emotions-social-graph.jpg"
-                    alt="Emofty Image"
-                />
+                <img src={socialGraphImage} alt="Emofty Image" />
             </figure>
             <div className="card-body">
                 <a
