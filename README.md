@@ -163,7 +163,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@artem0x](https://twitter.com/artem0x)
+Twitter - [@artem0x](https://twitter.com/artem0x)
 
 Project Link: [https://github.com/0xartem/emofties](https://github.com/0xartem/emofties)
 
