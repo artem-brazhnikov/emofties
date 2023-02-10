@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react"
-
-// import { Emofty } from "../../../../subgraph-goerli/generated/schema"
 import EmoftyCard from "../emofties/EmoftyCard"
 import {
     parseEmoftyTx,
