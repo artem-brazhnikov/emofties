@@ -11,14 +11,6 @@ import {
     publishEmoftyTransaction,
 } from "../../services/ArweaveEmofties"
 
-export type CoreEmotion =
-    | "JOY"
-    | "FEAR"
-    | "ANGER"
-    | "SADNESS"
-    | "DISGUST"
-    | "LOVE"
-
 const ArweaveShare = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [coreEmotion, setCoreEmotion] = useState<string>("")

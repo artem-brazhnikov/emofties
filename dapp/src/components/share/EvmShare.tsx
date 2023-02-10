@@ -3,7 +3,6 @@ import {
     keccak256,
     toUtf8Bytes,
     formatBytes32String,
-    toUtf8String,
     getAddress,
     arrayify,
 } from "ethers/lib/utils.js"
@@ -18,7 +17,11 @@ import {
 
 import EmoftiesAbi from "../../../../artifacts/contracts/EmoftiesProtocol.sol/EmoftiesProtocol.json"
 import EmoftyCard from "../emofties/EmoftyCard"
-import { CoreEmotion } from "../../emofties-lib"
+import {
+    CoreEmotion,
+    emotionsMap,
+    getCoreEmotionColor,
+} from "../../emofties-lib"
 
 const EvmShare = () => {
     const [coreEmotion, setCoreEmotion] = useState<string>("")
@@ -62,6 +65,12 @@ const EvmShare = () => {
         useContractWrite(contractWriteConfig)
     const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash })
 
+    const setShadowColor = (checkEmotion: CoreEmotion) => {
+        return coreEmotion === checkEmotion
+            ? getCoreEmotionColor(coreEmotion)
+            : ""
+    }
+
     return (
         <div className="flex gap-20 m-7 justify-start">
             <form
@@ -73,95 +82,79 @@ const EvmShare = () => {
                 <div className="form-control w-full max-w-xs">
                     <label className="label">
                         <span className="label-text">
-                            Specific Emotion for Emofty
+                            Emotion for Your Emofty
                         </span>
                         <span className="label-text-alt">Mandatory</span>
                     </label>
                     <select
-                        name="core-emotion"
+                        name="emotion-shade"
                         className="select select-bordered select-secondary"
-                        onChange={(e) => setEmotionsShade(e.target.value)}
+                        onChange={(e) => {
+                            setEmotionsShade(e.target.value)
+                            setCoreEmotion(
+                                emotionsMap
+                                    .get(e.target.value)
+                                    ?.toUpperCase() ?? ""
+                            )
+                        }}
                     >
                         <option disabled selected>
-                            Describe Your Emotion
+                            Choose Your Emotion
                         </option>
-                        <option>happiness</option>
-                        <option>love</option>
-                        <option>relief</option>
-                        <option>contentment</option>
-                        <option>amusement</option>
-                        <option>joy</option>
-                        <option>pride</option>
-                        <option>excitement</option>
-                        <option>peace</option>
-                        <option>satisfaction</option>
-                        <option>lonely</option>
-                        <option>heartbroken</option>
-                        <option>gloomy</option>
-                        <option>disappointed</option>
-                        <option>hopeless</option>
-                        <option>grieved</option>
-                        <option>unhappy</option>
-                        <option>lost</option>
-                        <option>troubled</option>
-                        <option>resigned</option>
-                        <option>miserable</option>
-                        <option>worried</option>
-                        <option>doubtful</option>
-                        <option>nervous</option>
-                        <option>anxious</option>
-                        <option>terrified</option>
-                        <option>panicked</option>
-                        <option>horrified</option>
-                        <option>desperate</option>
-                        <option>confused</option>
-                        <option>stressed</option>
-                        <option>annoyed</option>
-                        <option>frustrated</option>
-                        <option>peeved</option>
-                        <option>contrary</option>
-                        <option>bitter</option>
-                        <option>infuriated</option>
-                        <option>irritated</option>
-                        <option>mad</option>
-                        <option>cheated</option>
-                        <option>vengeful</option>
-                        <option>insulted</option>
-                        <option>dislike</option>
-                        <option>revulsion</option>
-                        <option>loathing</option>
-                        <option>disapproving</option>
-                        <option>offended</option>
-                        <option>horrified</option>
-                        <option>uncomfortable</option>
-                        <option>nauseated</option>
-                        <option>disturbed</option>
-                        <option>withdrawn</option>
-                        <option>aversion</option>
+                        {[...emotionsMap.keys()].map((key) => (
+                            <option>{key}</option>
+                        ))}
                     </select>
                 </div>
                 <div className="form-control w-full max-w-xs">
                     <label className="label">
-                        <span className="label-text">
-                            Core Emotion for Emofty
-                        </span>
+                        <span className="label-text">Core Emotions</span>
                         <span className="label-text-alt">Mandatory</span>
                     </label>
-                    <select
-                        name="core-emotion"
-                        className="select select-bordered select-secondary"
-                        onChange={(e) => setCoreEmotion(e.target.value)}
-                    >
-                        <option disabled selected>
-                            Chose Core Emotion
-                        </option>
-                        <option value="JOY">joy</option>
-                        <option value="FEAR">fear</option>
-                        <option value="ANGER">anger</option>
-                        <option value="SADNESS">sadness</option>
-                        <option value="DISGUST">disgust</option>
-                        <option value="LOVE">love</option>
-                    </select>
+                    <div className="flex flex-wrap gap-6 justify-between mb-2">
+                        <div
+                            className={`${setShadowColor(
+                                CoreEmotion.Joy
+                            )} badge badge-outline badge-lg gap-2 shadow-lg hover:shadow-xl hover:shadow-yellow-200`}
+                        >
+                            Joy
+                        </div>
+                        <div
+                            className={`${setShadowColor(
+                                CoreEmotion.Sadness
+                            )} badge badge-outline badge-lg gap-2 shadow-lg hover:shadow-xl hover:shadow-cyan-500`}
+                        >
+                            Sadness
+                        </div>
+                        <div
+                            className={`${setShadowColor(
+                                CoreEmotion.Love
+                            )} badge badge-outline badge-lg gap-2 shadow-lg hover:shadow-xl hover:shadow-pink-300`}
+                        >
+                            Love
+                        </div>
+                        <div
+                            className={`${setShadowColor(
+                                CoreEmotion.Anger
+                            )} badge badge-outline badge-lg gap-2 shadow-lg hover:shadow-xl hover:shadow-red-400`}
+                        >
+                            Anger
+                        </div>
+                        <div
+                            className={`${setShadowColor(
+                                CoreEmotion.Disgust
+                            )} badge badge-outline badge-lg gap-2 shadow-lg hover:shadow-xl hover:shadow-green-300`}
+                        >
+                            Disgust
+                        </div>
+                        <div
+                            className={`${setShadowColor(
+                                CoreEmotion.Fear
+                            )} badge badge-outline badge-lg gap-2 shadow-lg hover:shadow-xl hover:shadow-purple-400`}
+                        >
+                            Fear
+                        </div>
+                    </div>
                 </div>
                 <div className="form-control w-full max-w-xs">
                     <label className="label">

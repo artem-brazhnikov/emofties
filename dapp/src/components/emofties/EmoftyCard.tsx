@@ -1,21 +1,10 @@
-import {
-    hexlify,
-    keccak256,
-    parseBytes32String,
-    toUtf8Bytes,
-} from "ethers/lib/utils.js"
+import { hexlify, parseBytes32String } from "ethers/lib/utils.js"
 import socialGraphImage from "../../../assets/emotions-social-graph.jpg"
-
-const coreEmotionsMap = (() => {
-    const emotionsMap: Map<string, string> = new Map()
-    emotionsMap.set(keccak256(toUtf8Bytes("JOY")), "JOY")
-    emotionsMap.set(keccak256(toUtf8Bytes("FEAR")), "FEAR")
-    emotionsMap.set(keccak256(toUtf8Bytes("ANGER")), "ANGER")
-    emotionsMap.set(keccak256(toUtf8Bytes("SADNESS")), "SADNESS")
-    emotionsMap.set(keccak256(toUtf8Bytes("DISGUST")), "DISGUST")
-    emotionsMap.set(keccak256(toUtf8Bytes("LOVE")), "LOVE")
-    return emotionsMap
-})()
+import {
+    CoreEmotion,
+    coreEmotionsMap,
+    getCoreEmotionColor,
+} from "../../emofties-lib"
 
 type Props = {
     emofty: any
@@ -35,33 +24,14 @@ const EmoftyCard = ({ emofty, isArweave = false }: Props) => {
         console.error("parseBytes32String error", err)
     }
 
-    const coreEmotionStr = coreEmotionsMap.get(emofty.coreEmotion.toString())
-    let shadowColor
-    switch (coreEmotionStr) {
-        case "JOY":
-            shadowColor = "shadow-yellow-200"
-            break
-        case "FEAR":
-            shadowColor = "shadow-purple-400"
-            break
-        case "ANGER":
-            shadowColor = "shadow-red-400"
-            break
-        case "SADNESS":
-            shadowColor = "shadow-cyan-500"
-            break
-        case "DISGUST":
-            shadowColor = "shadow-green-300"
-            break
-        case "LOVE":
-            shadowColor = "shadow-pink-300"
-            break
-        default:
-            shadowColor = "shadow-slate-500"
-    }
+    let shadowColor = getCoreEmotionColor(
+        coreEmotionsMap.get(emofty.coreEmotion.toString())
+    )
 
     return (
-        <div className={`card w-96 bg-base-100 shadow-xl ${shadowColor}`}>
+        <div
+            className={`card w-96 bg-base-100 shadow-lg ${shadowColor} hover:shadow-xl hover:${shadowColor}`}
+        >
             <figure>
                 <img src={socialGraphImage} alt="Emofty Image" />
             </figure>
@@ -74,7 +44,6 @@ const EmoftyCard = ({ emofty, isArweave = false }: Props) => {
                 >
                     {emofty.sender}
                 </a>
-                {/* <div className="badge badge-primary gap-2">{emofty.sender}</div> */}
                 <h2
                     className="card-title tooltip tooltip-left"
                     data-tip="Emotion"
