@@ -33,6 +33,8 @@
     <br />
     <a href="https://emofties.vercel.app">View Demo</a>
     ·
+    <a href="https://taikai.network/ethlisbon/hackathons/ethlisbon-2022/projects/cl9v7bnj6116831101ttvv7n7rdf/idea">ETHLisbon Hackathon Submission</a>
+    ·
     <a href="https://github.com/0xartem/emofties/issues">Report Bug</a>
     ·
     <a href="https://github.com/0xartem/emofties/issues">Request Feature</a>
