@@ -103,6 +103,7 @@
 [![React][React.js]][React-url]
 [![Apollo GraphQL][Apollographql.com]][ApolloGraphQL-url]
 [![TailwindCSS][tailwindcss.com]][Tailwindcss-url]
+[![Hardhat][https://hardhat.org/]][Hardhat-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -195,3 +196,5 @@ Project Link: [https://github.com/0xartem/emofties](https://github.com/0xartem/e
 [ApolloGraphQL-url]: https://www.apollographql.com/
 [tailwindcss.com]: https://img.shields.io/badge/Tailwind%20CSS-053766?style=for-the-badge&logo=Tailwind%20CSS&logoColor=06B6D4
 [Tailwindcss-url]: https://www.tailwindcss.com/
+[tailwindcss.com]: https://img.shields.io/badge/Tailwind%20CSS-053766?style=for-the-badge&logo=Hardhat&logoColor=06B6D4
+[Hardhat-url]: https://hardhat.org
